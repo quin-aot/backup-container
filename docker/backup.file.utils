@@ -139,7 +139,9 @@ function pruneBackups(){
         # added pruning of s3 bucket, assumes the bucket is in sync with local backups
         if [[ $S3_ENDPOINT ]]; then
           echoYellow "\nPruning ${_coreFilename} S3 backups from ${_pruneDir} ..."
+          echo "\nFiles to prune:\n${_filesToPrune}"
           echo "${_filesToPrune}" | xargs mc rm minio_s3/$S3_BUCKET
+        fi
 
         # Quietly delete any empty directories that are left behind ...
         find ${ROOT_BACKUP_DIR} -type d -empty -delete > /dev/null 2>&1
