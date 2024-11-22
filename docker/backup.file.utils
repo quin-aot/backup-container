@@ -138,8 +138,9 @@ function pruneBackups(){
 
         # added pruning of s3 bucket, assumes the bucket is in sync with local backups
         if [[ $S3_ENDPOINT ]]; then
-          echoYellow "\nPruning ${_coreFilename} S3 backups from ${_pruneDir} ..."
-          echo "\nFiles to prune:\n${_filesToPrune}"
+          _s3filesToPrune = $(echo "$_filesToPrune" | xargs sed -E "s|/backups/[^/]+/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}|$S3_BUCKET|; s|//|/|g")
+          echoYellow "\nPruning ${_coreFilename} S3 backups from $S3_BUCKET ..."
+          echo "Files to prune: ${_s3filesToPrune}"
           echo "${_filesToPrune}" | xargs mc rm minio_s3/$S3_BUCKET
         fi
 
