@@ -141,7 +141,7 @@ function pruneBackups(){
           _s3filesToPrune=$(echo "$_filesToPrune" | xargs -I {} echo "{}" | sed -E "s|/backups/[^/]+/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}|$S3_BUCKET|g; s|//|/|g")
           echoYellow "\nPruning ${_coreFilename} S3 backups from $S3_BUCKET ..."
           echo "Files to prune: ${_s3filesToPrune}"
-          echo "${_filesToPrune}" | xargs mc rm minio_s3/$S3_BUCKET
+          echo "${_s3filesToPrune}" | xargs mc rm minio_s3/
         fi
 
         # Quietly delete any empty directories that are left behind ...
